@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8b4f3f8e238bd4991609ca8aa18c2a, type: 3}
+  m_Name: TestCutscene
+  m_EditorClassIdentifier: 
+  cutsceneEntries:
+  - dialogue: Test
+    image: {fileID: 0}
+  - dialogue: Hello
+    image: {fileID: 0}
+  - dialogue: Lorem ipsum ipsum ipsum Lorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem
+      ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum
+      ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum
+      ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem
+      ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum
+      ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum
+      ipsum
+    image: {fileID: 953107112610641878, guid: 73c76546230bf2542b37871594bd8649, type: 3}
+  - dialogue: Lorem ipsum ipsum ipsum Lorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem
+      ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum
+      ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum
+      ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem
+      ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum
+      ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum ipsumLorem ipsum ipsum
+      ipsum
+    image: {fileID: 1154439187, guid: cd7b1546960d78d499dca3f00a649b59, type: 3}
