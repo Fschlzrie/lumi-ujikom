@@ -7,11 +7,13 @@ public class NPCInteractSO : ScriptableObject
 {
     public string interactionMessage = "Press 'E' to interact."; // Pesan saat dekat NPC
     public string npcDialogue = "Hello! How can I help you?"; // Dialog NPC
+    public DialogSO dialogueData;
+    public DialogSO dialogueStop;
 
     public void Interact()
     {
-        // Logika interaksi saat player menekan tombol interaksi
+        
         Debug.Log($"NPC says: {npcDialogue}");
-        // Tambahkan logika tambahan di sini (dialog system, quest system, dll.)
+        
     }
 }
