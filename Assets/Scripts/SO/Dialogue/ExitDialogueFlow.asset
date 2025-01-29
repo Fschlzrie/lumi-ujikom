@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7913764db1316044bb852f7f9e6d5775, type: 3}
-  m_Name: dialogueExit
+  m_Script: {fileID: 11500000, guid: b157ed75ad1a18748b61cd2f593d6c4a, type: 3}
+  m_Name: ExitDialogueFlow
   m_EditorClassIdentifier: 
-  dialogueLines:
-  - . . .
-  hasOptions: 0
-  optionAText: 
-  optionBText: 
-  optionAResult: {fileID: 0}
-  optionBResult: {fileID: 0}
+  dialogueSO: {fileID: 11400000, guid: a8f675b770bcf124b9aa47b1920d6440, type: 2}
+  choices: []

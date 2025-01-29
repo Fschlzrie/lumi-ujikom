@@ -10,15 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7913764db1316044bb852f7f9e6d5775, type: 3}
-  m_Name: A
+  m_Name: Yes
   m_EditorClassIdentifier: 
-  dialogueLines:
-  - Yes
-  - Rial
-  - Or
-  - Fakeeeeeeeeeee
-  hasOptions: 1
-  optionAText: nigger
-  optionBText: niggger
-  optionAResult: {fileID: 11400000, guid: a8f675b770bcf124b9aa47b1920d6440, type: 2}
-  optionBResult: {fileID: 0}
+  textArray:
+  - Ya in aja

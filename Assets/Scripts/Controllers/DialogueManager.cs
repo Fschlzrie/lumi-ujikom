@@ -1,144 +1,145 @@
-using System.Collections;
 using UnityEngine;
-using TMPro;
-using UnityEngine.Events;
+using TMPro; // Menggunakan TextMeshPro
 using UnityEngine.UI;
+using System.Collections; // Perlu import sistem koleksi untuk IEnumerator
 
 public class DialogueManager : MonoBehaviour
 {
-    [Header("UI Elements")]
-    public TextMeshProUGUI dialogueText;  // Teks dialog yang akan ditampilkan
-    public Button optionAButton;          // Opsi A untuk memilih pilihan A
-    public Button optionBButton;          // Opsi B untuk memilih pilihan B
+    public DialogueFlow currentFlow; // Flow dialog aktif
+    public Transform choiceButtonParent; // Panel tempat tombol akan di-*spawn*
+    public GameObject choiceButtonPrefab; // Prefab tombol pilihan UI
+    public TextMeshProUGUI dialogueText; // TMP Text untuk menampilkan dialog
+    public float typingSpeed = 0.05f; // Kecepatan mengetik (waktu antara setiap karakter)
 
-    [Header("Dialogue Settings")]
-    public float typingSpeed = 0.05f;     // Kecepatan mengetik
+    private bool isNearby = false;
+    private int currentLineIndex = 0;
+    private DialogSO currentDialogue; // Menyimpan dialog yang sedang berlangsung
 
-    [Header("Dialogue Data")]
-    public DialogSO currentDialogueData;  // DialogSO untuk dialog yang sedang ditampilkan
 
-    private int currentDialogueIndex = 0;
-
-    [Header("Events")]
-    public UnityEvent onDialogueComplete;  // Event ketika dialog selesai
 
     void Start()
     {
         dialogueText.text = "";
-
-        // Menyembunyikan pilihan hingga dialog tertentu
-        if (optionAButton != null) optionAButton.gameObject.SetActive(false);
-        if (optionBButton != null) optionBButton.gameObject.SetActive(false);
-    }
-
-    // Fungsi untuk memulai dialog
-    public void StartDialogue(DialogSO dialogueData)
-    {
-        if (dialogueData == null) return;  // Pastikan data dialog tidak null
-
-        currentDialogueData = dialogueData;
-        currentDialogueIndex = 0;
-        dialogueText.text = "";
-
-        StartCoroutine(PlayDialogue());
-    }
-
-    // Fungsi untuk menghentikan dialog
-    public void StopDialogue()
-    {
-        StopAllCoroutines();
-        dialogueText.text = "";
-        currentDialogueIndex = 0;
-    }
-
-    // Coroutine untuk menampilkan dialog
-    IEnumerator PlayDialogue()
-    {
-        dialogueText.text = "";
-
-        // Menampilkan teks satu per satu dengan animasi mengetik
-        foreach (char letter in currentDialogueData.dialogueLines[currentDialogueIndex].ToCharArray())
+        if (currentFlow != null && currentFlow.dialogueSO != null)
         {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            // Menginisialisasi currentDialogue dengan firstDialogue
+            currentDialogue = currentFlow.dialogueSO;
         }
+    }
 
-        // Menunggu input untuk melanjutkan dialog
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-
-        currentDialogueIndex++;
-
-        // Jika ada dialog selanjutnya
-        if (currentDialogueIndex < currentDialogueData.dialogueLines.Length)
+    public void StartDialogue()
+    {
+        if (currentDialogue != null)
         {
-            StartCoroutine(PlayDialogue());
+            currentLineIndex = 0;
+            ShowCurrentLine();
+        }
+    }
+
+    public void ShowCurrentLine()
+    {
+        if (currentDialogue == null) return;
+
+        // Cek jika dialog masih memiliki teks
+        if (currentLineIndex < currentDialogue.textArray.Length)
+        {
+            // Mulai coroutine untuk efek mengetik
+            StartCoroutine(TypeText(currentDialogue.textArray[currentLineIndex]));
+            currentLineIndex++;
         }
         else
         {
-            // Jika dialog selesai, panggil event dan sembunyikan teks
-            onDialogueComplete.Invoke();
-            dialogueText.text = "";
+            // Dialog selesai, tampilkan pilihan (jika ada)
+            ShowChoices();
+        }
+    }
 
-            // Jika dialog memiliki opsi, tampilkan pilihan
-            if (currentDialogueData.hasOptions)
+    // Coroutine untuk mengetikkan teks satu per satu
+    private IEnumerator TypeText(string textToType)
+    {
+        dialogueText.text = ""; // Kosongkan teks sebelumnya
+        foreach (char letter in textToType)
+        {
+            dialogueText.text += letter; // Tambahkan satu karakter per loop
+            yield return new WaitForSeconds(typingSpeed); // Tunggu sesuai kecepatan typing
+        }
+    }
+
+    public void ShowChoices()
+    {
+        // Bersihkan tombol pilihan yang sebelumnya
+        foreach (Transform child in choiceButtonParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (currentFlow.choices == null || currentFlow.choices.Count == 0)
+        {
+            Debug.Log("Dialog selesai!");
+            return;
+        }
+
+        // Spawn tombol untuk setiap pilihan
+        foreach (var choice in currentFlow.choices)
+        {
+            GameObject buttonInstance = Instantiate(choiceButtonPrefab, choiceButtonParent); // Buat tombol dari prefab
+            TextMeshProUGUI buttonText = buttonInstance.GetComponentInChildren<TextMeshProUGUI>(); // Temukan komponen TMP Text di dalam prefab
+
+            if (buttonText != null)
             {
-                ShowOptions();
+                buttonText.text = choice.choiceText; // Atur teks tombol sesuai dengan teks pilihan
+            }
+
+            // Tambahkan event listener ke tombol
+            Button buttonComponent = buttonInstance.GetComponent<Button>();
+            if (buttonComponent != null)
+            {
+                buttonComponent.onClick.AddListener(() => OnChoiceSelected(choice.nextDialogueFlow));
             }
         }
-        
-        
     }
 
-    // Fungsi untuk menampilkan pilihan
-    private void ShowOptions()
+    private void Update()
     {
-        if (optionAButton == null || optionBButton == null || currentDialogueData == null) return;
-
-        optionAButton.gameObject.SetActive(true);
-        optionBButton.gameObject.SetActive(true);
-
-        // Menampilkan teks untuk masing-masing pilihan
-        optionAButton.GetComponentInChildren<TMP_Text>().text = currentDialogueData.optionAText;
-        optionBButton.GetComponentInChildren<TMP_Text>().text = currentDialogueData.optionBText;
-
-        // Menambahkan listener untuk tombol pilihan
-        optionAButton.onClick.AddListener(OnOptionASelected);
-        optionBButton.onClick.AddListener(OnOptionBSelected);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ShowCurrentLine();
+        }
     }
 
-   // Fungsi ketika Opsi A dipilih
-    private void OnOptionASelected()
+    private void OnChoiceSelected(DialogueFlow nextDialogue)
     {
-        // Menyembunyikan pilihan sebelum melanjutkan dialog
-        optionAButton.gameObject.SetActive(false);
-        optionBButton.gameObject.SetActive(false);
+        if (nextDialogue == null)
+        {
+            Debug.LogError("Dialog berikutnya tidak ditemukan!");
+            return;
+        }
 
-        // Lanjutkan dialog berdasarkan pilihan A
-        if (currentDialogueData.optionAResult != null)
-        {
-            StartDialogue(currentDialogueData.optionAResult);
-        }
-        else
-        {
-            StopDialogue();
-        }
+        // Mengubah currentDialogue ke dialog berikutnya yang dipilih
+        currentFlow = nextDialogue;
+        currentDialogue = nextDialogue.dialogueSO   ;
+        currentLineIndex = 0;
+        StartDialogue();
     }
 
-    // Fungsi ketika Opsi B dipilih
-    private void OnOptionBSelected()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        // Menyembunyikan pilihan sebelum melanjutkan dialog
-        optionAButton.gameObject.SetActive(false);
-        optionBButton.gameObject.SetActive(false);
-
-        // Lanjutkan dialog berdasarkan pilihan B
-        if (currentDialogueData.optionBResult != null)
+        if (other.CompareTag("Player"))  // Mengecek apakah objek memiliki tag "Player"
         {
-            StartDialogue(currentDialogueData.optionBResult);
-        }
-        else
-        {
-            StopDialogue();
+            isNearby = true;
+            Debug.Log(isNearby);
         }
     }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))  // Mengecek apakah objek memiliki tag "Player"
+        {
+            isNearby = false;
+            Debug.Log(isNearby);
+            
+        }
+    }
+
+
 }

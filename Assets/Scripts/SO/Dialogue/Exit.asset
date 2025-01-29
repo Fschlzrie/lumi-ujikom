@@ -12,10 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7913764db1316044bb852f7f9e6d5775, type: 3}
   m_Name: Exit
   m_EditorClassIdentifier: 
-  dialogueLines:
-  - Bye
-  hasOptions: 0
-  optionAText: 
-  optionBText: 
-  optionAResult: {fileID: 0}
-  optionBResult: {fileID: 0}
+  textArray:
+  - ...
