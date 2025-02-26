@@ -13,6 +13,7 @@ public class TriggerZone : MonoBehaviour
     public Vector3 offset = new Vector3(-0.5f, 1.5f, 0f);
     private bool alreadyEntered = false;
     private bool alreadyExited = false;
+    public bool isEnter = false;
 
     public string collisionTag;
     
@@ -21,19 +22,19 @@ public class TriggerZone : MonoBehaviour
 
     void Update()
     {
-         if (showKey)
+         if (showKey && isEnter)
         {
             keyObject.SetActive(true);
             // Update posisi bubble chat agar selalu di kiri atas NPC
             transform.position = viewObject.position + offset;
-        }else if (!showKey)
+        }else if (showKey && !isEnter)
         {
             keyObject.SetActive(false);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
-        showKey = true;
+        
         if (alreadyEntered)
             return;
 
@@ -47,7 +48,6 @@ public class TriggerZone : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D collision){
-        showKey = false;
         if (alreadyExited)
             return;
 
@@ -60,5 +60,10 @@ public class TriggerZone : MonoBehaviour
             alreadyExited = true;
     }
     
-    
+    public void setEnter(){
+        isEnter = true;
+    }
+    public void setNotEnter(){
+        isEnter = false;
+    }
 }
