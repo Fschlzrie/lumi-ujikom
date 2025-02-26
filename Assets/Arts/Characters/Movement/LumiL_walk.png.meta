@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 094efbfdb59bb1041bdc965100554726
+guid: 6aeb099bb8388f64a851ea0df1bfe62e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -46,8 +46,8 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 0
-  spritePivot: {x: 0.5, y: 0.5}
+  alignment: 7
+  spritePivot: {x: 0.5, y: 0}
   spritePixelsToUnits: 54
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -134,7 +134,133 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: LumiL_walk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4
+        width: 35
+        height: 52
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0d04d910281ace4dbbedd8b7a43bc60
+      internalID: 2034105312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LumiL_walk_1
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 3
+        width: 35
+        height: 53
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2299ec8c8aa244e45b1e7700dd256bc6
+      internalID: -1747060594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LumiL_walk_2
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 2
+        width: 35
+        height: 54
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c65ba2adec82ea4185bbaa2000b4f15
+      internalID: 1523582836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LumiL_walk_3
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 3
+        width: 35
+        height: 53
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1ab1d13c75658c4285ab8eabb95877d
+      internalID: 1705003409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LumiL_walk_4
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 2
+        width: 35
+        height: 54
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c61afe5da0a9ce42a0aa9500959842f
+      internalID: 1670095877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: LumiL_walk_5
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 2
+        width: 35
+        height: 54
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a2e39cb20a824e40a152f45b3ab0e94
+      internalID: 2103151296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +271,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      LumiL_walk_0: 2034105312
+      LumiL_walk_1: -1747060594
+      LumiL_walk_2: 1523582836
+      LumiL_walk_3: 1705003409
+      LumiL_walk_4: 1670095877
+      LumiL_walk_5: 2103151296
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
