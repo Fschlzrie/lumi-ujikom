@@ -5,65 +5,35 @@ using UnityEngine.Events;
 
 public class TriggerZone : MonoBehaviour
 {
-    public GameObject keyObject;
-    public Transform viewObject;
-    
-    public bool oneShot = false;
-    public bool showKey = false;
-    public Vector3 offset = new Vector3(-0.5f, 1.5f, 0f);
-    private bool alreadyEntered = false;
-    private bool alreadyExited = false;
-    public bool isEnter = false;
+    public bool oneShot = false; // Apakah trigger hanya bisa dipicu sekali?
+    private bool triggered = false; // Flag untuk mengunci trigger jika oneShot aktif
 
-    public string collisionTag;
+    public string collisionTag; // Tag untuk filter objek yang bisa memicu trigger
     
-    public UnityEvent onTriggerEnter;
-    public UnityEvent onTriggerExit;
+    public UnityEvent onTriggerEnter; // Event saat masuk trigger
+    public UnityEvent onTriggerExit; // Event saat keluar dari trigger
 
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-         if (showKey && isEnter)
-        {
-            keyObject.SetActive(true);
-            // Update posisi bubble chat agar selalu di kiri atas NPC
-            transform.position = viewObject.position + offset;
-        }else if (showKey && !isEnter)
-        {
-            keyObject.SetActive(false);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision){
-        
-        if (alreadyEntered)
-            return;
+        if (triggered) return; // Jika oneShot aktif dan sudah dipicu, tidak lakukan apa-apa
 
         if (!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag))
-            return;
+            return; // Hanya lanjutkan jika tag objek sesuai
 
-        onTriggerEnter?.Invoke();
+        onTriggerEnter?.Invoke(); // Panggil event masuk
 
-        if(oneShot)
-            alreadyEntered = true;
+        if (oneShot) triggered = true; // Kunci trigger jika oneShot aktif
     }
 
-    private void OnTriggerExit2D(Collider2D collision){
-        if (alreadyExited)
-            return;
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (triggered) return; // Jika sudah dipicu dan oneShot aktif, abaikan
 
-        if(!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag))
-            return;
+        if (!string.IsNullOrEmpty(collisionTag) && !collision.CompareTag(collisionTag))
+            return; // Pastikan hanya objek dengan tag tertentu yang bisa memicu trigger
 
-        onTriggerExit?.Invoke();
+        onTriggerExit?.Invoke(); // Panggil event keluar
 
-        if (oneShot)
-            alreadyExited = true;
-    }
-    
-    public void setEnter(){
-        isEnter = true;
-    }
-    public void setNotEnter(){
-        isEnter = false;
+        if (oneShot) triggered = true; // Kunci trigger jika oneShot aktif
     }
 }
