@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShowKey : MonoBehaviour
 {
     public Transform viewObject;
+    public UnityEvent onInteract;
+    public UnityEvent onInteract2;
     public GameObject keyObject;
 
     public Vector3 offset = new Vector3(-0.5f, 1.5f, 0f);
@@ -21,6 +24,15 @@ public class ShowKey : MonoBehaviour
     void Update()
     {
         keyObject.SetActive(isShowing);
+
+        if (isShowing && Input.GetKeyDown(KeyCode.E))
+        {
+            onInteract.Invoke();
+        }
+        if (isShowing && Input.GetKeyDown(KeyCode.Escape))
+        {
+            onInteract2.Invoke();
+        }
     }
 
     public void Show(){

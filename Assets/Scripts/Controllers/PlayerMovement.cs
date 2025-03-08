@@ -50,6 +50,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.isNoteOpen)
+        {
+            movement = Vector2.zero; // Hentikan input
+            rb.velocity = Vector2.zero; // Paksa Rigidbody diam
+            animator.SetFloat("Speed", 0); // Animasi idle
+            return;
+        }
         if (moveAction != null) { // Important null check!
             movement = moveAction.ReadValue<Vector2>();
         }
