@@ -21,6 +21,7 @@ public class LockpickManager : MonoBehaviour
     {
         SetupLockpickGame();
         HighlightButton(); // Mulai dengan menyorot tombol pertama
+        Time.timeScale = 0;
     }
 
     void Update()
@@ -33,8 +34,8 @@ public class LockpickManager : MonoBehaviour
         buttonOrder = GenerateRandomOrder(5);
         correctOrder = GenerateRandomOrder(5);
 
-        Debug.Log("Button Order: " + string.Join(", ", buttonOrder));
-        Debug.Log("Correct Order: " + string.Join(", ", correctOrder));
+        // Debug.Log("Button Order: " + string.Join(", ", buttonOrder));
+        // Debug.Log("Correct Order: " + string.Join(", ", correctOrder));
 
         for (int i = 0; i < pinButtons.Count; i++)
         {
@@ -69,7 +70,7 @@ public class LockpickManager : MonoBehaviour
 
         if (selectedValue == correctOrder[currentIndex])
         {
-            Debug.Log("Correct: " + selectedValue);
+            // Debug.Log("Correct: " + selectedValue);
             pinButtons[buttonIndex].interactable = false; // Matikan tombol yang sudah ditekan
             currentIndex++;
 
@@ -80,7 +81,7 @@ public class LockpickManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Incorrect! Reset progress.");
+            // Debug.Log("Incorrect! Reset progress.");
             ResetGame();
         }
     }
@@ -99,6 +100,7 @@ public class LockpickManager : MonoBehaviour
         Debug.Log("Lockpick successful!");
         onLockpickSuccess?.Invoke();
         minigamePanel.SetActive(false);
+        Time.timeScale = 1;
     }
 
     private void HandleInput()

@@ -3187,6 +3187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8367642274893471893, guid: c09c6fd2596bd0f4da61a9d8d323935d, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5040,9 +5044,9 @@ MonoBehaviour:
   onInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 689405172}
-        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
-        m_MethodName: OpenNote
+      - m_Target: {fileID: 848569474}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SpawnLockpickMinigame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5054,19 +5058,7 @@ MonoBehaviour:
         m_CallState: 2
   onInteract2:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 689405172}
-        m_TargetAssemblyTypeName: NoteSystem, Assembly-CSharp
-        m_MethodName: CloseNote
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   keyObject: {fileID: 190588692}
   offset: {x: -0.2, y: 0.2, z: 0}
   isShowing: 0
@@ -5105,6 +5097,18 @@ MonoBehaviour:
       - m_Target: {fileID: 689405170}
         m_TargetAssemblyTypeName: ShowKey, Assembly-CSharp
         m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 848569474}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: DestroyMinigame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7273,6 +7277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d1170d6516ac246a585d66908ac39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lockpickMinigamePrefab: {fileID: 5789014965912054558, guid: 4fc65d555aa10d341a19f4fc01da4cb2, type: 3}
+  uiCanvas: {fileID: 1226805339}
 --- !u!4 &848569475
 Transform:
   m_ObjectHideFlags: 0
@@ -10614,7 +10620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   notePrefab: {fileID: 3709543623662721159, guid: 76fc109443cca4543a0fdfbbf93c37cc, type: 3}
-  noteText: Tes nigga one nigga two nigga tree nigga four
+  noteText: Ini adalah apple yang menginspirasi Newton
 --- !u!212 &2074465661
 SpriteRenderer:
   m_ObjectHideFlags: 0
