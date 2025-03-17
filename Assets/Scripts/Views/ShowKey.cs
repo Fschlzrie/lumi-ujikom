@@ -15,7 +15,7 @@ public class ShowKey : MonoBehaviour
     public bool isShowing;
 
   
-    void Awake()
+    void Start()
     {
         keyObject.SetActive(false);
     }

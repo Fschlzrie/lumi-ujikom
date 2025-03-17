@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using TMPro;
+
+[System.Serializable]
+public class LockpickResultEvent : UnityEvent<string> { }
 
 public class LockpickManager : MonoBehaviour
 {
-    public List<Button> pinButtons; // List button yang akan diklik oleh pemain
-    private List<int> buttonOrder = new List<int>(); // Urutan angka pada tombol (diacak)
-    private List<int> correctOrder = new List<int>(); // Urutan yang harus ditebak pemain
-    private int currentIndex = 0; // Posisi urutan yang sedang dicek
-    private int selectedIndex = 0; // Untuk navigasi tombol
+    public List<Button> pinButtons;
+    private List<int> buttonOrder = new List<int>();
+    private List<int> correctOrder = new List<int>();
+    private int currentIndex = 0;
+    private int selectedIndex = 0;
 
-    public UnityEvent onLockpickSuccess; // Event ketika berhasil membuka kunci
-    public GameObject minigamePanel; // Panel minigame untuk ditutup setelah sukses
+    public GameObject minigamePanel;
+
+    public string resultItem = "DefaultItem"; // Bisa diset dari Inspector atau lewat GameManager
+    public LockpickResultEvent onLockpickCompleted; // Event dengan hasil
 
     void Start()
     {
         SetupLockpickGame();
-        HighlightButton(); // Mulai dengan menyorot tombol pertama
+        HighlightButton();
         Time.timeScale = 0;
     }
 
@@ -34,9 +38,6 @@ public class LockpickManager : MonoBehaviour
         buttonOrder = GenerateRandomOrder(5);
         correctOrder = GenerateRandomOrder(5);
 
-        // Debug.Log("Button Order: " + string.Join(", ", buttonOrder));
-        // Debug.Log("Correct Order: " + string.Join(", ", correctOrder));
-
         for (int i = 0; i < pinButtons.Count; i++)
         {
             int assignedValue = buttonOrder[i];
@@ -44,7 +45,7 @@ public class LockpickManager : MonoBehaviour
             pinButtons[i].onClick.RemoveAllListeners();
             int index = i;
             pinButtons[i].onClick.AddListener(() => CheckPin(index, assignedValue));
-            pinButtons[i].interactable = true; // Pastikan tombol bisa ditekan di awal
+            pinButtons[i].interactable = true;
         }
     }
 
@@ -55,7 +56,6 @@ public class LockpickManager : MonoBehaviour
         {
             numbers.Add(i);
         }
-
         for (int i = numbers.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
@@ -66,12 +66,11 @@ public class LockpickManager : MonoBehaviour
 
     private void CheckPin(int buttonIndex, int selectedValue)
     {
-        if (!pinButtons[buttonIndex].interactable) return; // Jika sudah ditekan, tidak bisa dipilih lagi
+        if (!pinButtons[buttonIndex].interactable) return;
 
         if (selectedValue == correctOrder[currentIndex])
         {
-            // Debug.Log("Correct: " + selectedValue);
-            pinButtons[buttonIndex].interactable = false; // Matikan tombol yang sudah ditekan
+            pinButtons[buttonIndex].interactable = false;
             currentIndex++;
 
             if (currentIndex >= correctOrder.Count)
@@ -81,7 +80,6 @@ public class LockpickManager : MonoBehaviour
         }
         else
         {
-            // Debug.Log("Incorrect! Reset progress.");
             ResetGame();
         }
     }
@@ -91,16 +89,17 @@ public class LockpickManager : MonoBehaviour
         currentIndex = 0;
         foreach (var button in pinButtons)
         {
-            button.interactable = true; // Aktifkan kembali semua tombol setelah reset
+            button.interactable = true;
         }
     }
 
     private void LockpickSuccess()
     {
-        Debug.Log("Lockpick successful!");
-        onLockpickSuccess?.Invoke();
+        Debug.Log("Lockpick successful! Result: " + resultItem);
+        onLockpickCompleted?.Invoke(resultItem);
         minigamePanel.SetActive(false);
         Time.timeScale = 1;
+        Destroy(gameObject); // Clean up instance
     }
 
     private void HandleInput()
@@ -126,10 +125,8 @@ public class LockpickManager : MonoBehaviour
     {
         SetButtonHighlight(false);
         selectedIndex += direction;
-
         if (selectedIndex < 0) selectedIndex = pinButtons.Count - 1;
         if (selectedIndex >= pinButtons.Count) selectedIndex = 0;
-
         HighlightButton();
     }
 

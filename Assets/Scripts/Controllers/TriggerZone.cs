@@ -12,6 +12,7 @@ public class TriggerZone : MonoBehaviour
     
     public UnityEvent onTriggerEnter; // Event saat masuk trigger
     public UnityEvent onTriggerExit; // Event saat keluar dari trigger
+    public UnityEvent onCollisionEnter;// Event saat bertabrakan
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -33,6 +34,17 @@ public class TriggerZone : MonoBehaviour
             return; // Pastikan hanya objek dengan tag tertentu yang bisa memicu trigger
 
         onTriggerExit?.Invoke(); // Panggil event keluar
+
+        if (oneShot) triggered = true; // Kunci trigger jika oneShot aktif
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (triggered) return; // Jika oneShot sudah aktif, abaikan
+
+        if (!string.IsNullOrEmpty(collisionTag) && !collision.gameObject.CompareTag(collisionTag))
+            return; // Pastikan hanya objek dengan tag yang sesuai yang bisa memicu event
+
+        onCollisionEnter?.Invoke(); // Panggil event tabrakan masuk
 
         if (oneShot) triggered = true; // Kunci trigger jika oneShot aktif
     }

@@ -1,49 +1,63 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public static bool isNoteOpen = false;
 
-    public GameObject lockpickMinigamePrefab; // Prefab minigame
-    private GameObject currentMinigameInstance; // Instance yang sedang aktif
+    public GameObject lockpickMinigamePrefab;
+    private GameObject currentMinigameInstance;
 
-    public Transform uiCanvas; // **Pastikan ini adalah Canvas utama**
+    public Transform uiCanvas;
+    public GameObject objectivePrefab;
+    public Transform objectiveContainer;
+    private Dictionary<string, GameObject> activeObjectives = new Dictionary<string, GameObject>();
 
     void Update()
     {
         int width = Screen.width;
         int height = Screen.height;
-
-        // Pastikan resolusi selalu genap
         if (width % 2 != 0) width++;
         if (height % 2 != 0) height++;
-
-        Screen.SetResolution(width, height, false); // false = windowed mode
+        Screen.SetResolution(width, height, false);
     }
 
-    public void SpawnLockpickMinigame()
+    public void SpawnLockpickMinigame(string resultItem)
     {
         if (currentMinigameInstance == null)
         {
-            currentMinigameInstance = Instantiate(lockpickMinigamePrefab, uiCanvas); // Spawn di Canvas UI
-
-            // Reset posisi agar muncul di tengah Canvas
+            currentMinigameInstance = Instantiate(lockpickMinigamePrefab, uiCanvas);
             RectTransform rt = currentMinigameInstance.GetComponent<RectTransform>();
             if (rt != null)
             {
-                rt.anchoredPosition = Vector2.zero; // **Pastikan muncul di tengah Canvas**
+                rt.anchoredPosition = Vector2.zero;
             }
 
-            // Tambahkan event saat berhasil membuka kunci
             LockpickManager lockpickScript = currentMinigameInstance.GetComponent<LockpickManager>();
             if (lockpickScript != null)
             {
-                lockpickScript.onLockpickSuccess.AddListener(DestroyMinigame);
+                lockpickScript.resultItem = resultItem; // Set hasil minigame
+                lockpickScript.onLockpickCompleted.AddListener(HandleMinigameResult);
             }
         }
+    }
+
+    private void HandleMinigameResult(string result)
+    {
+        Debug.Log("Received minigame result: " + result);
+
+        // Contoh: Berdasarkan hasil, lakukan sesuatu
+        if (result == "gold_key")
+        {
+            ShowObjective("found_key", "You found a golden key!");
+        }
+        else if (result == "secret_code")
+        {
+            ShowObjective("secret_code", "You discovered a secret code!");
+        }
+
+        // Bersihkan instance
+        DestroyMinigame();
     }
 
     public void DestroyMinigame()
@@ -52,6 +66,40 @@ public class GameManager : MonoBehaviour
         {
             Destroy(currentMinigameInstance);
             currentMinigameInstance = null;
+        }
+    }
+    //Testing Debug
+    public void ShowObjectiveFromButton(string idAndMessage)
+    {
+        // Pisahkan id dan message pakai delimiter
+        string[] parts = idAndMessage.Split('|');
+        if (parts.Length >= 2)
+        {
+            string id = parts[0];
+            string message = parts[1];
+            ShowObjective(id, message);
+        }
+    }
+    public void ShowObjective(string id, string message)
+    {
+        if (!activeObjectives.ContainsKey(id))
+        {
+            GameObject newObjective = Instantiate(objectivePrefab, objectiveContainer);
+            ObjectiveUI objectiveUI = newObjective.GetComponent<ObjectiveUI>();
+            if (objectiveUI != null)
+            {
+                objectiveUI.SetObjective(id, message);
+            }
+            activeObjectives.Add(id, newObjective);
+        }
+    }
+
+    public void CompleteObjective(string id)
+    {
+        if (activeObjectives.ContainsKey(id))
+        {
+            Destroy(activeObjectives[id]);
+            activeObjectives.Remove(id);
         }
     }
 }

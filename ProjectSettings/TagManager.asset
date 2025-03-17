@@ -47,6 +47,9 @@ TagManager:
   - name: Shadow
     uniqueID: 2265975243
     locked: 0
+  - name: Object
+    uniqueID: 752418073
+    locked: 0
   - name: Player
     uniqueID: 1176210853
     locked: 0
