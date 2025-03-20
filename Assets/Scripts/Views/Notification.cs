@@ -24,9 +24,9 @@ public class Notification : MonoBehaviour
         Debug.LogError("Animator tidak memiliki Animator Controller! Tambahkan di Inspector!", this);
         return;
     }
-
+    
     notificationText.text = message;  
-    animator.SetTrigger("Show");      
+    animator.SetTrigger("Show");
 }
 
 

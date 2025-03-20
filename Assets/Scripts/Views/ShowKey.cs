@@ -8,6 +8,7 @@ public class ShowKey : MonoBehaviour
     public Transform viewObject;
     public UnityEvent onInteract;
     public UnityEvent onInteract2;
+    public UnityEvent onLockpickSuccess;
     public GameObject keyObject;
 
     public Vector3 offset = new Vector3(-0.5f, 1.5f, 0f);
@@ -42,5 +43,10 @@ public class ShowKey : MonoBehaviour
     }
     public void Hide(){
         isShowing = false;
+    }
+    // Buat fungsi public untuk dipanggil dari LockpickManager
+    public void InvokeLockpickSuccessEvent()
+    {
+        onLockpickSuccess?.Invoke();
     }
 }

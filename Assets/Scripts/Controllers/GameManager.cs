@@ -1,63 +1,48 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public static bool isNoteOpen = false;
 
-    public GameObject lockpickMinigamePrefab;
-    private GameObject currentMinigameInstance;
+    public GameObject lockpickMinigamePrefab; // Prefab minigame
+    private GameObject currentMinigameInstance; // Instance yang sedang aktif
 
-    public Transform uiCanvas;
-    public GameObject objectivePrefab;
-    public Transform objectiveContainer;
-    private Dictionary<string, GameObject> activeObjectives = new Dictionary<string, GameObject>();
+    public Transform uiCanvas; // **Pastikan ini adalah Canvas utama**
+    public GameObject objectivePrefab; // Prefab Objective UI
+    public Transform objectiveContainer; // Tempatkan di pojok kiri atas di Canvas
+    
+    private Dictionary<string, GameObject> activeObjectives = new Dictionary<string, GameObject>(); // Simpan objective aktif
+
 
     void Update()
     {
         int width = Screen.width;
         int height = Screen.height;
+
+        // Pastikan resolusi selalu genap
         if (width % 2 != 0) width++;
         if (height % 2 != 0) height++;
-        Screen.SetResolution(width, height, false);
+
+        Screen.SetResolution(width, height, false); // false = windowed mode
     }
 
-    public void SpawnLockpickMinigame(string resultItem)
+        public void SpawnLockpickMinigame()
     {
         if (currentMinigameInstance == null)
         {
-            currentMinigameInstance = Instantiate(lockpickMinigamePrefab, uiCanvas);
+            currentMinigameInstance = Instantiate(lockpickMinigamePrefab, uiCanvas); // Spawn di Canvas UI
+
+            // Reset posisi agar muncul di tengah Canvas
             RectTransform rt = currentMinigameInstance.GetComponent<RectTransform>();
             if (rt != null)
             {
-                rt.anchoredPosition = Vector2.zero;
+                rt.anchoredPosition = Vector2.zero; // **Pastikan muncul di tengah Canvas**
             }
 
-            LockpickManager lockpickScript = currentMinigameInstance.GetComponent<LockpickManager>();
-            if (lockpickScript != null)
-            {
-                lockpickScript.resultItem = resultItem; // Set hasil minigame
-                lockpickScript.onLockpickCompleted.AddListener(HandleMinigameResult);
-            }
         }
-    }
-
-    private void HandleMinigameResult(string result)
-    {
-        Debug.Log("Received minigame result: " + result);
-
-        // Contoh: Berdasarkan hasil, lakukan sesuatu
-        if (result == "gold_key")
-        {
-            ShowObjective("found_key", "You found a golden key!");
-        }
-        else if (result == "secret_code")
-        {
-            ShowObjective("secret_code", "You discovered a secret code!");
-        }
-
-        // Bersihkan instance
-        DestroyMinigame();
     }
 
     public void DestroyMinigame()
@@ -67,6 +52,23 @@ public class GameManager : MonoBehaviour
             Destroy(currentMinigameInstance);
             currentMinigameInstance = null;
         }
+    }
+
+    public void ShowObjective(string id, string message)
+    {
+        if (!activeObjectives.ContainsKey(id)) // Jangan spawn kalau sudah ada ID yg sama
+        {
+            SoundEffectManager.Play("notif");
+            GameObject newObjective = Instantiate(objectivePrefab, objectiveContainer);
+            ObjectiveUI objectiveUI = newObjective.GetComponent<ObjectiveUI>();
+
+            if (objectiveUI != null)
+            {
+                objectiveUI.SetObjective(id, message);
+            }
+
+            activeObjectives.Add(id, newObjective);
+        }   
     }
     //Testing Debug
     public void ShowObjectiveFromButton(string idAndMessage)
@@ -80,26 +82,16 @@ public class GameManager : MonoBehaviour
             ShowObjective(id, message);
         }
     }
-    public void ShowObjective(string id, string message)
-    {
-        if (!activeObjectives.ContainsKey(id))
-        {
-            GameObject newObjective = Instantiate(objectivePrefab, objectiveContainer);
-            ObjectiveUI objectiveUI = newObjective.GetComponent<ObjectiveUI>();
-            if (objectiveUI != null)
-            {
-                objectiveUI.SetObjective(id, message);
-            }
-            activeObjectives.Add(id, newObjective);
-        }
-    }
+
 
     public void CompleteObjective(string id)
     {
         if (activeObjectives.ContainsKey(id))
         {
+            SoundEffectManager.Play("compObj");
             Destroy(activeObjectives[id]);
             activeObjectives.Remove(id);
         }
     }
+
 }

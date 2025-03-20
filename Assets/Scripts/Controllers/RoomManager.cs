@@ -13,6 +13,7 @@ public class RoomManager : MonoBehaviour
     {
         if (currentRoom != null && targetRoom != null && player != null && spawnLocation != null)
         {
+            SoundEffectManager.Play("openDoor");
             currentRoom.SetActive(false); // Matikan ruangan saat ini
             targetRoom.SetActive(true);   // Aktifkan ruangan tujuan
             

@@ -301,9 +301,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentIDCounter: 5
-  json: '{"Options":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":0}],"EditorInfo":{"isRoot":false,"xPos":-6.5,"yPos":144},"ID":1,"ParamActions":[],"TMPFontGUID":null,"Text":"NOO","parentUIDs":[0],"SpeechUID":-1},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":false,"xPos":276.5,"yPos":141},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"Oke
-    pak owo","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":1},{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":125,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Makan
-    gratis nya nanti yah","parentUIDs":[1],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Prabowo","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":273.5,"yPos":260},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"hehe","parentUIDs":[2],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Prabowo","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
+  json: '{"Options":[{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":0}],"EditorInfo":{"isRoot":false,"xPos":24.5,"yPos":144},"ID":1,"ParamActions":[],"TMPFontGUID":null,"Text":"NOO","parentUIDs":[0],"SpeechUID":-1},{"Connections":[{"__type":"EditableSpeechConnection:#DialogueEditor","Conditions":[],"NodeUID":3}],"EditorInfo":{"isRoot":false,"xPos":307.5,"yPos":141},"ID":2,"ParamActions":[],"TMPFontGUID":null,"Text":"Oke
+    pak owo","parentUIDs":[0],"SpeechUID":-1}],"Parameters":[],"SpeechNodes":[{"Connections":[{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":1},{"__type":"EditableOptionConnection:#DialogueEditor","Conditions":[],"NodeUID":2}],"EditorInfo":{"isRoot":true,"xPos":156,"yPos":22},"ID":0,"ParamActions":[],"TMPFontGUID":null,"Text":"Makan
+    gratis nya nanti yah","parentUIDs":[1],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Prabowo","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0},{"Connections":[],"EditorInfo":{"isRoot":false,"xPos":304.5,"yPos":260},"ID":3,"ParamActions":[],"TMPFontGUID":null,"Text":"hehe","parentUIDs":[2],"AdvanceDialogueAutomatically":false,"AudioGUID":null,"AutoAdvanceShouldDisplayOption":false,"IconGUID":null,"Name":"Prabowo","OptionUIDs":null,"SpeechUID":0,"TimeUntilAdvance":0,"Volume":0}]}'
   saveVersion: 110
   DefaultName: Prabowo
   DefaultSprite: {fileID: 21300000, guid: c874d8b7e1cac274c9d2092813e14327, type: 3}
@@ -1831,7 +1831,7 @@ SortingGroup:
   m_GameObject: {fileID: 514596624}
   m_Enabled: 1
   m_SortingLayerID: 1176210853
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!212 &514596629
@@ -1930,6 +1930,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onCollisionEnter:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!224 &530172638 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3900108755196472087, guid: d9fa78e8c3c4f2b4b8f7f77ca8426cca, type: 3}
@@ -1977,7 +1980,7 @@ SortingGroup:
   m_GameObject: {fileID: 534672218}
   m_Enabled: 1
   m_SortingLayerID: 1176210853
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_SortAtRoot: 0
 --- !u!1 &573418299
@@ -5484,7 +5487,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6021418918327503558, guid: cea8dda63ed9dd74c9caadde44ac76db, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 5.5555553
       objectReference: {fileID: 0}
     - target: {fileID: 6474070537793945676, guid: cea8dda63ed9dd74c9caadde44ac76db, type: 3}
       propertyPath: m_WorldUpOverride

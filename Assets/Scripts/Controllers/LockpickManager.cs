@@ -3,28 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
-
-[System.Serializable]
-public class LockpickResultEvent : UnityEvent<string> { }
 
 public class LockpickManager : MonoBehaviour
 {
-    public List<Button> pinButtons;
-    private List<int> buttonOrder = new List<int>();
-    private List<int> correctOrder = new List<int>();
-    private int currentIndex = 0;
-    private int selectedIndex = 0;
-
-    public GameObject minigamePanel;
-
-    public string resultItem = "DefaultItem"; // Bisa diset dari Inspector atau lewat GameManager
-    public LockpickResultEvent onLockpickCompleted; // Event dengan hasil
+    public List<Button> pinButtons; // List button yang akan diklik oleh pemain
+    private List<int> buttonOrder = new List<int>(); // Urutan angka pada tombol (diacak)
+    private List<int> correctOrder = new List<int>(); // Urutan yang harus ditebak pemain
+    private int currentIndex = 0; // Posisi urutan yang sedang dicek
+    private int selectedIndex = 0; // Untuk navigasi tombol
+    public ShowKey showKeyReference;
+    public GameObject minigamePanel; // Panel minigame untuk ditutup setelah sukses
 
     void Start()
     {
+        if (showKeyReference == null)
+    {
+        showKeyReference = FindObjectOfType<ShowKey>(); // Cari ShowKey otomatis
+    }
         SetupLockpickGame();
-        HighlightButton();
+        HighlightButton(); // Mulai dengan menyorot tombol pertama
         Time.timeScale = 0;
     }
 
@@ -38,6 +37,9 @@ public class LockpickManager : MonoBehaviour
         buttonOrder = GenerateRandomOrder(5);
         correctOrder = GenerateRandomOrder(5);
 
+        // Debug.Log("Button Order: " + string.Join(", ", buttonOrder));
+        // Debug.Log("Correct Order: " + string.Join(", ", correctOrder));
+
         for (int i = 0; i < pinButtons.Count; i++)
         {
             int assignedValue = buttonOrder[i];
@@ -45,7 +47,7 @@ public class LockpickManager : MonoBehaviour
             pinButtons[i].onClick.RemoveAllListeners();
             int index = i;
             pinButtons[i].onClick.AddListener(() => CheckPin(index, assignedValue));
-            pinButtons[i].interactable = true;
+            pinButtons[i].interactable = true; // Pastikan tombol bisa ditekan di awal
         }
     }
 
@@ -56,6 +58,7 @@ public class LockpickManager : MonoBehaviour
         {
             numbers.Add(i);
         }
+
         for (int i = numbers.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
@@ -66,11 +69,12 @@ public class LockpickManager : MonoBehaviour
 
     private void CheckPin(int buttonIndex, int selectedValue)
     {
-        if (!pinButtons[buttonIndex].interactable) return;
+        if (!pinButtons[buttonIndex].interactable) return; // Jika sudah ditekan, tidak bisa dipilih lagi
 
         if (selectedValue == correctOrder[currentIndex])
         {
-            pinButtons[buttonIndex].interactable = false;
+            // Debug.Log("Correct: " + selectedValue);
+            pinButtons[buttonIndex].interactable = false; // Matikan tombol yang sudah ditekan
             currentIndex++;
 
             if (currentIndex >= correctOrder.Count)
@@ -80,6 +84,7 @@ public class LockpickManager : MonoBehaviour
         }
         else
         {
+            // Debug.Log("Incorrect! Reset progress.");
             ResetGame();
         }
     }
@@ -89,17 +94,19 @@ public class LockpickManager : MonoBehaviour
         currentIndex = 0;
         foreach (var button in pinButtons)
         {
-            button.interactable = true;
+            button.interactable = true; // Aktifkan kembali semua tombol setelah reset
         }
     }
 
     private void LockpickSuccess()
     {
-        Debug.Log("Lockpick successful! Result: " + resultItem);
-        onLockpickCompleted?.Invoke(resultItem);
+        Debug.Log("Lockpick successful!");
+        if (showKeyReference != null)
+        {
+            showKeyReference.InvokeLockpickSuccessEvent(); // Panggil event dari ShowKey
+        }   
         minigamePanel.SetActive(false);
         Time.timeScale = 1;
-        Destroy(gameObject); // Clean up instance
     }
 
     private void HandleInput()
@@ -125,8 +132,10 @@ public class LockpickManager : MonoBehaviour
     {
         SetButtonHighlight(false);
         selectedIndex += direction;
+
         if (selectedIndex < 0) selectedIndex = pinButtons.Count - 1;
         if (selectedIndex >= pinButtons.Count) selectedIndex = 0;
+
         HighlightButton();
     }
 

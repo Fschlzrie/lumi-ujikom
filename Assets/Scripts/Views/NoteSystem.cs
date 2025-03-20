@@ -15,6 +15,7 @@ public class NoteSystem : MonoBehaviour
     {
         if (currentNotePanel == null)
         {
+            SoundEffectManager.Play("note");
             currentNotePanel = Instantiate(notePrefab, FindObjectOfType<Canvas>().transform);
             
             // Ambil TMP_Text dari child dengan nama "Text" dan set teksnya
