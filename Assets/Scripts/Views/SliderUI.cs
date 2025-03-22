@@ -5,6 +5,7 @@ public class VolumeControl : MonoBehaviour
 {
     public Slider musicSlider;
     public Slider sfxSlider;
+    
 
     void Start()
     {

@@ -47,6 +47,14 @@ public class AudioManager : MonoBehaviour
         FindAudioSources();
         ApplyVolume();
     }
+    public void ChangeMusic(AudioClip newClip)
+{
+    if (musicSource != null)
+    {
+        musicSource.clip = newClip;
+        musicSource.Play();
+    }
+}
 
     void FindAudioSources()
     {
