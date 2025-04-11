@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e907f3537dc89914d8e2885c8b0d6271, type: 3}
+  m_Name: Math1
+  m_EditorClassIdentifier: 
+  quizID: math1
+  questionImage: {fileID: 21300000, guid: d8801da62167d284fb526e1696d3220c, type: 3}
+  correctAnswer: 120

@@ -35,19 +35,19 @@ public class GameManager : MonoBehaviour
     }
 
     private Dictionary<string, ObjectiveProgress> activeObjectives = new Dictionary<string, ObjectiveProgress>();
-    void Awake()
-    {
-        // Singleton Setup
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // Biar gak hilang pas pindah scene
-        }
-        else
-        {
-            Destroy(gameObject); // Kalau ada lebih dari satu, destroy duplikat
-        }
-    }
+    // void Awake()
+    // {
+    //     // Singleton Setup
+    //     if (instance == null)
+    //     {
+    //         instance = this;
+    //         DontDestroyOnLoad(gameObject); // Biar gak hilang pas pindah scene
+    //     }
+    //     else
+    //     {
+    //         Destroy(gameObject); // Kalau ada lebih dari satu, destroy duplikat
+    //     }
+    // }
     void Update()
     {
         int width = Screen.width;

@@ -104,4 +104,20 @@ public class PlayerMovement : MonoBehaviour
     {
         isTalking = talking;
     }
+    public void Explode()
+    {
+        OnDisable();
+        animator.Play("explode");
+        SoundEffectManager.Play("Explode");
+        
+        // Optional: delay sebelum game over / restart
+        Invoke("GameOver", 2f);
+    }
+
+    void GameOver()
+    {
+        Debug.Log("GAME OVER");
+        // Bisa langsung reload scene atau munculin UI game over
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
