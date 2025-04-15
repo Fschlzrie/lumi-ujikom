@@ -3092,7 +3092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!320 &395855060
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -13611,7 +13611,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: b1ed1c6863c9c784a9d0c51b349401fd, type: 2}
-  m_audioClip: {fileID: 8300000, guid: a3bb77c2455a4ba4dbbb084090599dc3, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 20a150ff5e93f694d814441e3c149769, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.4
   m_Pitch: 1
@@ -14566,6 +14566,9 @@ MonoBehaviour:
   - name: compObj
     audioClips:
     - {fileID: 8300000, guid: 0a5f81a5621a59444bee5b450918c5ff, type: 3}
+  - name: explode
+    audioClips:
+    - {fileID: 8300000, guid: 8f30272436c475f4485be6338bd96ac1, type: 3}
 --- !u!82 &1860872730
 AudioSource:
   m_ObjectHideFlags: 0

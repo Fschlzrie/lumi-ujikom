@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e907f3537dc89914d8e2885c8b0d6271, type: 3}
-  m_Name: Math1
+  m_Name: Q1
   m_EditorClassIdentifier: 
-  quizID: math1
-  questionImage: {fileID: 21300000, guid: d8801da62167d284fb526e1696d3220c, type: 3}
-  correctAnswer: 120
+  quizID: q1
+  questionImage: {fileID: 21300000, guid: 883f197d63721cf41852c402e0455f30, type: 3}
+  correctAnswer: 3

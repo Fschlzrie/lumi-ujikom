@@ -7,7 +7,7 @@ public class Quizzz : MonoBehaviour
 
     [Header("Panel Manager")]
     public QuizManager quizManager;
-
+    
     public void TriggerQuiz()
     {
         if (quizManager == null)
@@ -16,6 +16,19 @@ public class Quizzz : MonoBehaviour
             return;
         }
 
-        quizManager.ShowQuiz(quizData);
+        quizManager.ShowQuiz(quizData, this.gameObject);
     }
+    public void Splat()
+    {
+        AudioSource audio = GetComponent<AudioSource>();
+        if (audio != null)
+        {
+            audio.Play();
+        }
+        else
+        {
+            Debug.LogWarning("🎵 AudioSource belum ditambahkan di GameObject ini!");
+        }
+    }
+
 }

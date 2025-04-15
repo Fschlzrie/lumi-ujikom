@@ -96,10 +96,25 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void OnDisable() {
-        if (moveAction != null) {
-            moveAction.Disable();
-        }
+        ResetAnimator();
+    if (moveAction != null) {
+        moveAction.Disable();
     }
+
+    // Reset animation parameter agar animasi benar-benar idle
+    if (animator != null) {
+        animator.SetFloat("Horizontal", 0);
+        animator.SetFloat("Vertical", 0);
+        animator.SetFloat("Speed", 0);
+    }
+
+    // Optional juga: reset movement supaya ga lanjut jalan
+    movement = Vector2.zero;
+    if (rb != null) {
+        rb.velocity = Vector2.zero;
+    }
+}
+
     public void SetTalking(bool talking)
     {
         isTalking = talking;
@@ -108,10 +123,19 @@ public class PlayerMovement : MonoBehaviour
     {
         OnDisable();
         animator.Play("explode");
-        SoundEffectManager.Play("Explode");
+        SoundEffectManager.Play("explode");
         
         // Optional: delay sebelum game over / restart
         Invoke("GameOver", 2f);
+    }
+    void ResetAnimator()
+    {
+        if (animator != null)
+        {
+            animator.SetFloat("Horizontal", 0);
+            animator.SetFloat("Vertical", 0);
+            animator.SetFloat("Speed", 0);
+        }
     }
 
     void GameOver()
