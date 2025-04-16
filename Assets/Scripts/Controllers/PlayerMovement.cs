@@ -14,6 +14,8 @@ public class PlayerMovement : MonoBehaviour
     public PlayerInput playerInput;
     public InputActionReference moveActionReference; // Use InputActionReference
     private InputAction moveAction; // Store the actual InputAction here
+    public GameObject gameOverPanel; // <-- Tambahkan ini di atas
+
     private Vector2 movement;
 
     void Awake()
@@ -138,10 +140,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void GameOver()
+   void GameOver()
     {
         Debug.Log("GAME OVER");
-        // Bisa langsung reload scene atau munculin UI game over
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true); // Munculin panel
+        }
+        else
+        {
+            Debug.LogWarning("GameOverPanel belum di-assign!");
+        }
+
+        // Kalau kamu juga pengen pause game:
+        Time.timeScale = 0f;
     }
+
 }

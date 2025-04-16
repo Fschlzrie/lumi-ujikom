@@ -1,26 +1,29 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     public static bool isNoteOpen = false;
+    public GameObject rewardPanel;
 
-    public GameObject lockpickMinigamePrefab; // Prefab minigame
-    private GameObject currentMinigameInstance; // Instance minigame aktif
+    public GameObject lockpickMinigamePrefab;
+    private GameObject currentMinigameInstance;
 
     public Transform uiCanvas;
     public GameObject objectivePrefab;
     public Transform objectiveContainer;
-     public static GameManager instance;
 
-    
+    public GameObject pauseMenuUI; // Tambahkan ini di inspector
+    private bool isGamePaused = false;
 
-    // Struct Objective Progress
+    private Dictionary<string, ObjectiveProgress> activeObjectives = new Dictionary<string, ObjectiveProgress>();
+
     [System.Serializable]
     public class ObjectiveProgress
     {
         public string id;
+        
         public int targetAmount;
         public int currentAmount;
         public GameObject uiObject;
@@ -34,20 +37,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private Dictionary<string, ObjectiveProgress> activeObjectives = new Dictionary<string, ObjectiveProgress>();
-    // void Awake()
-    // {
-    //     // Singleton Setup
-    //     if (instance == null)
-    //     {
-    //         instance = this;
-    //         DontDestroyOnLoad(gameObject); // Biar gak hilang pas pindah scene
-    //     }
-    //     else
-    //     {
-    //         Destroy(gameObject); // Kalau ada lebih dari satu, destroy duplikat
-    //     }
-    // }
     void Update()
     {
         int width = Screen.width;
@@ -57,7 +46,51 @@ public class GameManager : MonoBehaviour
         if (height % 2 != 0) height++;
 
         Screen.SetResolution(width, height, false);
+
+        // Cek tombol Escape
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isGamePaused)
+                ResumeGame();
+            else
+                PauseGame();
+        }
     }
+
+    // ========================= PAUSE GAME =========================
+    public void PauseGame()
+    {
+        pauseMenuUI.SetActive(true);
+        Time.timeScale = 0f; // Freeze game
+        isGamePaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        isGamePaused = false;
+    }
+
+    public void RetryLevel()
+    {
+        Time.timeScale = 1f; // Pastikan game jalan lagi
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GoToMenu(string menuSceneName)
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(menuSceneName);
+    }
+        public void ShowRewardPanel()
+    {   
+        if (rewardPanel != null)
+        {
+            rewardPanel.SetActive(true);
+        }
+    }
+
 
     // ========================= LOCKPICK =========================
     public void SpawnLockpickMinigame()
@@ -83,7 +116,6 @@ public class GameManager : MonoBehaviour
     }
 
     // ========================= OBJECTIVES =========================
-    // Objective Biasa
     public void ShowObjective(string id, string message)
     {
         if (!activeObjectives.ContainsKey(id))
@@ -102,7 +134,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Objective dengan jumlah target (misal: 3/3 bahan)
     public void ShowObjectiveWithCount(string id, string message, int targetCount)
     {
         if (!activeObjectives.ContainsKey(id))
@@ -121,7 +152,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Tambah progress
     public void AddObjectiveProgress(string id)
     {
         if (activeObjectives.ContainsKey(id))
@@ -129,14 +159,12 @@ public class GameManager : MonoBehaviour
             ObjectiveProgress progress = activeObjectives[id];
             progress.currentAmount++;
 
-            // Update UI text
             ObjectiveUI objectiveUI = progress.uiObject.GetComponent<ObjectiveUI>();
             if (objectiveUI != null)
             {
                 objectiveUI.SetObjective(id, $"Progress({progress.currentAmount}/{progress.targetAmount})");
             }
 
-            // Jika sudah selesai
             if (progress.currentAmount >= progress.targetAmount && progress.targetAmount > 0)
             {
                 CompleteObjective(id);
@@ -154,7 +182,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Debug Manual (optional)
     public void ShowObjectiveFromButton(string idAndMessage)
     {
         string[] parts = idAndMessage.Split('|');
@@ -165,4 +192,23 @@ public class GameManager : MonoBehaviour
             ShowObjective(id, message);
         }
     }
+
+    public void CompleteLevel(int nextLevelIndex)
+    {
+        int currentUnlocked = PlayerPrefs.GetInt("MaxLevelUnlocked", 1);
+        Debug.Log($"[DEBUG] Current MaxLevelUnlocked: {currentUnlocked}");
+
+        if (nextLevelIndex > currentUnlocked)
+        {
+            PlayerPrefs.SetInt("MaxLevelUnlocked", nextLevelIndex);
+            PlayerPrefs.Save();
+
+            Debug.Log($"[DEBUG] New level unlocked: {nextLevelIndex}");
+        }
+        else
+        {
+            Debug.Log($"[DEBUG] Level {nextLevelIndex} already unlocked or not higher than current.");
+        }
+    }
+
 }
