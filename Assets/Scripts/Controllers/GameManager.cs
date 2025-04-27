@@ -39,13 +39,13 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        int width = Screen.width;
-        int height = Screen.height;
+        // int width = Screen.width;
+        // int height = Screen.height;
 
-        if (width % 2 != 0) width++;
-        if (height % 2 != 0) height++;
+        // if (width % 2 != 0) width++;
+        // if (height % 2 != 0) height++;
 
-        Screen.SetResolution(width, height, false);
+        // Screen.SetResolution(width, height, false);
 
         // Cek tombol Escape
         if (Input.GetKeyDown(KeyCode.Escape))
